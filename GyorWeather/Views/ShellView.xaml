@@ -36,61 +36,62 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
+        
         <!-- Row 1-->
         <materialDesign:Card Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,5" Width="260" Height="33">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Grid.Row="1" Grid.Column="1" x:Name="City" Width="125" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock Grid.Row="1" Grid.Column="2"  Width="125" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Ido, Mode=OneWay}" Focusable="True" />
+                <TextBlock x:Name="City" Width="125" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                <TextBlock x:Name="Time" Width="125" VerticalAlignment="Center" TextAlignment="Right"/>
             </StackPanel>
         </materialDesign:Card>
 
         <!-- Row 2-->
-        <materialDesign:Card Grid.Row="2" Grid.Column="1" Grid.RowSpan="4" Width="150" Height="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,5">
-            <StackPanel>
-                <TextBlock Grid.Row="2" Grid.Column="1" Grid.RowSpan="4" Text="{Binding Path=Temperature, Mode=OneWay}"  Width="100" Height="100" Margin="5,45,0,0" FontSize="48"></TextBlock>
+        <materialDesign:Card Grid.Row="2" Grid.Column="1" Grid.RowSpan="4" Width="150" Height="150" Margin="0,0,0,5">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock x:Name="Temperature" FontSize="48" TextAlignment="Center"/>
             </StackPanel>
         </materialDesign:Card>
 
-        <materialDesign:Card Grid.Row="2" Grid.Column="2" Height="33" Width="105" HorizontalAlignment="Left" Margin="5,0,0,5">
-            <TextBlock Grid.Row="2" Grid.Column="2"  Text="Páratartalom:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <materialDesign:Card Grid.Row="2" Grid.Column="2" Margin="5,0,0,5" Width="105" Height="33">
+            <TextBlock Text="Páratartalom:" VerticalAlignment="Center" TextAlignment="Center"/>
         </materialDesign:Card>
 
         <!-- Row 3-->
-        <materialDesign:Card Grid.Row="3" Grid.Column="2" Height="33" Width="105" Margin="5,0,0,5" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Grid.Row="3" Grid.Column="2" x:Name="Humidity" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <materialDesign:Card Grid.Row="3" Grid.Column="2" Margin="5,0,0,5"  Width="105"  Height="33" >
+            <TextBlock x:Name="Humidity" VerticalAlignment="Center" TextAlignment="Center"/>
         </materialDesign:Card>
 
         <!-- Row 4-->
-        <materialDesign:Card Grid.Row="4" Grid.Column="2" Height="33" Width="105" Margin="5,0,0,5">
-            <TextBlock Grid.Row="4" Grid.Column="2" Text="Hőérzet:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <materialDesign:Card Grid.Row="4" Grid.Column="2" Margin="5,0,0,5" Width="105" Height="33">
+            <TextBlock Text="Hőérzet:" VerticalAlignment="Center" TextAlignment="Center"/>
         </materialDesign:Card>
 
         <!-- Row 5-->
-        <materialDesign:Card Grid.Row="5" Grid.Column="2" Height="33" Width="105" Margin="5,0,0,5">
-            <TextBlock Grid.Row="5" Grid.Column="2" x:Name="FeelsLike"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <materialDesign:Card Grid.Row="5" Grid.Column="2" Margin="5,0,0,5" Width="105" Height="33">
+            <TextBlock x:Name="FeelsLike" VerticalAlignment="Center" TextAlignment="Center"/>
         </materialDesign:Card>
 
         <!-- Row 6-->
-        <materialDesign:Card Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="260" Margin="0,0,0,5" Height="33">
+        <materialDesign:Card Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,5" Width="260" Height="33">
             <StackPanel  Orientation="Horizontal">
-                <materialDesign:PackIcon Kind="WeatherSunsetUp" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock x:Name="Sunrise" Grid.Row="6" Grid.Column="1" Width="100" VerticalAlignment="Center" TextAlignment="Center"/>
-                <materialDesign:PackIcon Kind="WeatherSunsetDown" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock x:Name="Sunset" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Width="105" HorizontalAlignment="Center" TextAlignment="Center"/>
+                <materialDesign:PackIcon Kind="WeatherSunsetUp" VerticalAlignment="Center" Margin="5,0,0,0" Width="20" Height="20"/>
+                <TextBlock x:Name="Sunrise" Width="100" VerticalAlignment="Center" TextAlignment="Center"/>
+                <materialDesign:PackIcon Kind="WeatherSunsetDown" VerticalAlignment="Center" Width="20" Height="20"/>
+                <TextBlock x:Name="Sunset" Width="105" VerticalAlignment="Center" TextAlignment="Center"/>
             </StackPanel>
         </materialDesign:Card>
 
         <!-- Row 7-->
         <materialDesign:Card Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,5" Height="33">
             <StackPanel Orientation="Horizontal">
-                <materialDesign:PackIcon Kind="WeatherWindy" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Width="20" Height="20"/>
-                <TextBlock Grid.Row="7" Grid.Column="1" Width="100"  x:Name="WindSpeed" VerticalAlignment="Center" HorizontalAlignment="Left" TextAlignment="Center"/>
-                <materialDesign:PackIcon Kind="Compass" VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="20"/>
-                <TextBlock Grid.Row="7" Grid.Column="2" x:Name="WindDir" HorizontalAlignment="Center" VerticalAlignment="Center" Width="105" TextAlignment="Center"/>
+                <materialDesign:PackIcon Kind="WeatherWindy"  VerticalAlignment="Center" Margin="5,0,0,0" Width="20" Height="20"/>
+                <TextBlock x:Name="WindSpeed" Width="100" VerticalAlignment="Center" TextAlignment="Center"/>
+                <materialDesign:PackIcon Kind="Compass" VerticalAlignment="Center" Width="20" Height="20"/>
+                <TextBlock x:Name="WindDirection" Width="105" VerticalAlignment="Center" TextAlignment="Center"/>
             </StackPanel>
         </materialDesign:Card>
 
         <!-- Row 8-->
-        <Button Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Content="Frissités" x:Name="Fresh"/>
+        <Button Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Content="Frissités" x:Name="Update"/>
     </Grid>
 </Window>

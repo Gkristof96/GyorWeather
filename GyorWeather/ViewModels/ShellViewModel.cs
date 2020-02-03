@@ -16,7 +16,7 @@ namespace GyorWeather.ViewModels
 		private string _sunset; //napnyugta
 		private string _city; //város
 		private string _humidity; //páratartalom
-		private string _ido; //aktuális idő
+		private string _time; //aktuális idő
 
 		public string Temperature
 		{
@@ -37,10 +37,10 @@ namespace GyorWeather.ViewModels
 			get { return _windspeed; }
 			set { _windspeed = value; NotifyOfPropertyChange(() => WindSpeed); }
 		}
-		public string WindDir
+		public string WindDirection
 		{
 			get { return _winddirections; }
-			set { _winddirections = value; NotifyOfPropertyChange(() => WindDir); }
+			set { _winddirections = value; NotifyOfPropertyChange(() => WindDirection); }
 		}
 		public string Sunrise
 		{
@@ -62,53 +62,36 @@ namespace GyorWeather.ViewModels
 			get { return _humidity; }
 			set { _humidity = value; NotifyOfPropertyChange(() => Humidity); }
 		}
-		public string Ido
+		public string Time
 		{
-			get { return _ido; }
+			get { return _time; }
 			set
 			{
-				_ido = value;
-				NotifyOfPropertyChange(() => Ido);
+				_time = value;
+				NotifyOfPropertyChange(() => Time);
 			}
 		}
 		public ShellViewModel() // ShellViewModel konstruktora
 		{
-			var Object = GetWeather();
-
-			try
-			{
-				Temperature = Math.Round((double)Object["main"]["temp"] - 273.15).ToString() + "°C"; //hőmérséklet kinyerése formázása
-				FeelsLike = Math.Round((double)Object["main"]["feels_like"] - 273.15).ToString() + "°C";
-				Humidity = Math.Round((double)Object["main"]["humidity"]).ToString() + "%";
-				Sunrise = Time((int)Object["sys"]["sunrise"]);
-				Sunset = Time((int)Object["sys"]["sunset"]);
-				WindSpeed = ((double)Object["wind"]["speed"] * 3.6).ToString() + " km/h";
-				WindDir = Direction((int)Object["wind"]["deg"]);
-				City = Object["name"].ToString();
-				DateTime dt = DateTime.Now;
-				Ido = dt.ToString("HH:mm:ss tt");
-			}
-			catch (Exception)
-			{
-				MessageBox.Show("Nem sikerült az adatok lekérése");
-			}
+			Update();
 		}
-		public void Fresh() // gobm metódusa
+		public void Update() // adat frissítő metódus
 		{
 			var Object = GetWeather();
+
 			// probálkozás az adatok kinyerésére, ha nincsenek adatok hibát dob a program
 			try
 			{
 				Temperature = Math.Round((double)Object["main"]["temp"] - 273.15).ToString() + "°C"; // hőmérséklet kiszámítása, az érték kelvinben van tárolva ezért ki kell vonunk 273.15-t
 				FeelsLike = Math.Round((double)Object["main"]["feels_like"] - 273.15).ToString() + "°C";
 				Humidity = Math.Round((double)Object["main"]["humidity"]).ToString() + "%";
-				Sunrise = Time((int)Object["sys"]["sunrise"]); //time metódus adja vissza az időt a unix időből
-				Sunset = Time((int)Object["sys"]["sunset"]);
-				WindSpeed = ((double)Object["wind"]["speed"] * 3.6).ToString() + " km/h"; // szélesbesség megadása 3.6-al szórzunk hogy megkapjuk a km/h-ás értéket
-				WindDir = Direction((int)Object["wind"]["deg"]); // szélirány meghatározása a Direction metódusal 
+				Sunrise = UnixTime((int)Object["sys"]["sunrise"]); // UnixTime metódus adja vissza az időt a unix időből
+				Sunset = UnixTime((int)Object["sys"]["sunset"]);
+				WindSpeed = ((double)Object["wind"]["speed"] * 3.6).ToString() + " km/h"; // szélsebesség megadása 3.6-al szórzunk hogy megkapjuk a km/h-ás értéket
+				WindDirection = Direction((int)Object["wind"]["deg"]); // szélirány meghatározása a Direction metódusal 
 				City = Object["name"].ToString(); // város 
 				DateTime dt = DateTime.Now; // aktuális idő
-				Ido = dt.ToString("HH:mm:ss tt");
+				Time = dt.ToString("HH:mm:ss tt");
 			}
 			catch (Exception)
 			{
@@ -158,7 +141,7 @@ namespace GyorWeather.ViewModels
 			}
 			return _direction; // a kapott irányt stringként adjuk vissza
 		}
-		public string Time(int unixtime) // Idő kinyerése Unix formátumból, a metódus paraméterként kapja meg a unixidőt
+		public string UnixTime(int unixtime) // Idő kinyerése Unix formátumból, a metódus paraméterként kapja meg a unixidőt
 		{
 			var timeSpan = TimeSpan.FromSeconds(unixtime); 
 			var localDateTime = new DateTime(timeSpan.Ticks).ToLocalTime();
