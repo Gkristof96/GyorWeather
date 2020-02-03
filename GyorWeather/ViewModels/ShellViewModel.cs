@@ -93,21 +93,21 @@ namespace GyorWeather.ViewModels
 				MessageBox.Show("Nem sikerült az adatok lekérése");
 			}
 		}
-		public void Fresh()
+		public void Fresh() // gobm metódusa
 		{
 			var Object = GetWeather();
-			// Adatok kinyerése, ha nincsenek adatok hibát dob a program
+			// probálkozás az adatok kinyerésére, ha nincsenek adatok hibát dob a program
 			try
 			{
-				Temperature = Math.Round((double)Object["main"]["temp"] - 273.15).ToString() + "°C";
+				Temperature = Math.Round((double)Object["main"]["temp"] - 273.15).ToString() + "°C"; // hőmérséklet kiszámítása, az érték kelvinben van tárolva ezért ki kell vonunk 273.15-t
 				FeelsLike = Math.Round((double)Object["main"]["feels_like"] - 273.15).ToString() + "°C";
 				Humidity = Math.Round((double)Object["main"]["humidity"]).ToString() + "%";
-				Sunrise = Time((int)Object["sys"]["sunrise"]);
+				Sunrise = Time((int)Object["sys"]["sunrise"]); //time metódus adja vissza az időt a unix időből
 				Sunset = Time((int)Object["sys"]["sunset"]);
-				WindSpeed = ((double)Object["wind"]["speed"] * 3.6).ToString() + " km/h";
-				WindDir = Direction((int)Object["wind"]["deg"]);
-				City = Object["name"].ToString();
-				DateTime dt = DateTime.Now;
+				WindSpeed = ((double)Object["wind"]["speed"] * 3.6).ToString() + " km/h"; // szélesbesség megadása 3.6-al szórzunk hogy megkapjuk a km/h-ás értéket
+				WindDir = Direction((int)Object["wind"]["deg"]); // szélirány meghatározása a Direction metódusal 
+				City = Object["name"].ToString(); // város 
+				DateTime dt = DateTime.Now; // aktuális idő
 				Ido = dt.ToString("HH:mm:ss tt");
 			}
 			catch (Exception)
