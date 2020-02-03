@@ -84,7 +84,7 @@ namespace GyorWeather.ViewModels
 			{
 				Temperature = Math.Round((double)Object["main"]["temp"] - 273.15).ToString() + "°C"; // hőmérséklet kiszámítása, az érték kelvinben van tárolva ezért ki kell vonunk 273.15-t
 				FeelsLike = Math.Round((double)Object["main"]["feels_like"] - 273.15).ToString() + "°C";
-				Humidity = Math.Round((double)Object["main"]["humidity"]).ToString() + "%";
+				Humidity = Math.Round((double)Object["main"]["humidity"]).ToString() + "%"; // Páratartalom
 				Sunrise = UnixTime((int)Object["sys"]["sunrise"]); // UnixTime metódus adja vissza az időt a unix időből
 				Sunset = UnixTime((int)Object["sys"]["sunset"]);
 				WindSpeed = ((double)Object["wind"]["speed"] * 3.6).ToString() + " km/h"; // szélsebesség megadása 3.6-al szórzunk hogy megkapjuk a km/h-ás értéket
