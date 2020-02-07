@@ -40,15 +40,15 @@
         <!-- Row 1-->
         <materialDesign:Card Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,5" Width="260" Height="33">
             <StackPanel Orientation="Horizontal">
-                <TextBlock x:Name="City" Width="125" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock x:Name="Time" Width="125" VerticalAlignment="Center" TextAlignment="Right"/>
+                <TextBlock x:Name="Weather_City" Width="125" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                <TextBlock x:Name="Weather_Time" Width="125" VerticalAlignment="Center" TextAlignment="Right"/>
             </StackPanel>
         </materialDesign:Card>
 
         <!-- Row 2-->
         <materialDesign:Card Grid.Row="2" Grid.Column="1" Grid.RowSpan="4" Width="150" Height="150" Margin="0,0,0,5">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="Temperature" FontSize="48" TextAlignment="Center"/>
+                <TextBlock x:Name="Weather_Temperature" FontSize="48" TextAlignment="Center"/>
             </StackPanel>
         </materialDesign:Card>
 
@@ -58,7 +58,7 @@
 
         <!-- Row 3-->
         <materialDesign:Card Grid.Row="3" Grid.Column="2" Margin="5,0,0,5"  Width="105"  Height="33" >
-            <TextBlock x:Name="Humidity" VerticalAlignment="Center" TextAlignment="Center"/>
+            <TextBlock x:Name="Weather_Humidity" VerticalAlignment="Center" TextAlignment="Center"/>
         </materialDesign:Card>
 
         <!-- Row 4-->
@@ -68,16 +68,16 @@
 
         <!-- Row 5-->
         <materialDesign:Card Grid.Row="5" Grid.Column="2" Margin="5,0,0,5" Width="105" Height="33">
-            <TextBlock x:Name="FeelsLike" VerticalAlignment="Center" TextAlignment="Center"/>
+            <TextBlock x:Name="Weather_FeelsLike" VerticalAlignment="Center" TextAlignment="Center"/>
         </materialDesign:Card>
 
         <!-- Row 6-->
         <materialDesign:Card Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,5" Width="260" Height="33">
             <StackPanel  Orientation="Horizontal">
                 <materialDesign:PackIcon Kind="WeatherSunsetUp" VerticalAlignment="Center" Margin="5,0,0,0" Width="20" Height="20"/>
-                <TextBlock x:Name="Sunrise" Width="100" VerticalAlignment="Center" TextAlignment="Center"/>
+                <TextBlock x:Name="Weather_Sunrise" Width="100" VerticalAlignment="Center" TextAlignment="Center"/>
                 <materialDesign:PackIcon Kind="WeatherSunsetDown" VerticalAlignment="Center" Width="20" Height="20"/>
-                <TextBlock x:Name="Sunset" Width="105" VerticalAlignment="Center" TextAlignment="Center"/>
+                <TextBlock x:Name="Weather_Sunset" Width="105" VerticalAlignment="Center" TextAlignment="Center"/>
             </StackPanel>
         </materialDesign:Card>
 
@@ -85,9 +85,9 @@
         <materialDesign:Card Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,5" Height="33">
             <StackPanel Orientation="Horizontal">
                 <materialDesign:PackIcon Kind="WeatherWindy"  VerticalAlignment="Center" Margin="5,0,0,0" Width="20" Height="20"/>
-                <TextBlock x:Name="WindSpeed" Width="100" VerticalAlignment="Center" TextAlignment="Center"/>
+                <TextBlock x:Name="Weather_WindSpeed" Width="100" VerticalAlignment="Center" TextAlignment="Center"/>
                 <materialDesign:PackIcon Kind="Compass" VerticalAlignment="Center" Width="20" Height="20"/>
-                <TextBlock x:Name="WindDirection" Width="105" VerticalAlignment="Center" TextAlignment="Center"/>
+                <TextBlock x:Name="Weather_WindDirection" Width="105" VerticalAlignment="Center" TextAlignment="Center"/>
             </StackPanel>
         </materialDesign:Card>
 

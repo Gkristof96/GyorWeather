@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using GyorWeather.Models;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
@@ -8,111 +9,73 @@ namespace GyorWeather.ViewModels
 {
 	public class ShellViewModel : Screen
 	{
-		private string _temp; // hőmérséklet
-		private string _feelslike; // hőérzet
-		private string _windspeed; // szélsebesség
-		private string _winddirections; // szélirány
-		private string _sunrise; //napkelte
-		private string _sunset; //napnyugta
-		private string _city; //város
-		private string _humidity; //páratartalom
-		private string _time; //aktuális idő
-
-		public string Temperature
+		private WeatherModel _weather = new WeatherModel();
+		public WeatherModel Weather
 		{
-			get { return _temp; }
-			set
-			{
-				_temp = value;
-				NotifyOfPropertyChange(() => Temperature);
-			}
+			get { return _weather; }
+			set { _weather = value; }
 		}
-		public string FeelsLike
+		// Konstruktor
+		public ShellViewModel()
 		{
-			get { return _feelslike; }
-			set { _feelslike = value; NotifyOfPropertyChange(() => FeelsLike); }
+			Update();	
 		}
-		public string WindSpeed
-		{
-			get { return _windspeed; }
-			set { _windspeed = value; NotifyOfPropertyChange(() => WindSpeed); }
-		}
-		public string WindDirection
-		{
-			get { return _winddirections; }
-			set { _winddirections = value; NotifyOfPropertyChange(() => WindDirection); }
-		}
-		public string Sunrise
-		{
-			get { return _sunrise; }
-			set { _sunrise = value; NotifyOfPropertyChange(() => Sunrise); }
-		}
-		public string Sunset
-		{
-			get { return _sunset; }
-			set { _sunset = value; NotifyOfPropertyChange(() => Sunset); }
-		}
-		public string City
-		{
-			get { return _city; }
-			set { _city = value; NotifyOfPropertyChange(() => City); }
-		}
-		public string Humidity
-		{
-			get { return _humidity; }
-			set { _humidity = value; NotifyOfPropertyChange(() => Humidity); }
-		}
-		public string Time
-		{
-			get { return _time; }
-			set
-			{
-				_time = value;
-				NotifyOfPropertyChange(() => Time);
-			}
-		}
-		public ShellViewModel() // ShellViewModel konstruktora
-		{
-			Update();
-		}
-		public void Update() // adat frissítő metódus
+		// Adatok tárolása, frissítése
+		public void Update()
 		{
 			var Object = GetWeather();
-
-			// probálkozás az adatok kinyerésére, ha nincsenek adatok hibát dob a program
+			if (!(Object is null))
+			{
+				try
+				{
+					Weather.Temperature = Math.Round((double)Object["main"]["temp"] - 273.15).ToString() + "°C";
+					Weather.FeelsLike = Math.Round((double)Object["main"]["feels_like"] - 273.15).ToString() + "°C";
+					Weather.Humidity = Math.Round((double)Object["main"]["humidity"]).ToString() + "%";
+					Weather.Sunrise = UnixTime((int)Object["sys"]["sunrise"]);
+					Weather.Sunset = UnixTime((int)Object["sys"]["sunset"]);
+					Weather.WindSpeed = ((double)Object["wind"]["speed"] * 3.6).ToString() + " km/h";
+					Weather.WindDirection = Direction((int)Object["wind"]["deg"]);
+					Weather.City = Object["name"].ToString();
+					DateTime dt = DateTime.Now;
+					Weather.Time = dt.ToString("HH:mm:ss tt");
+					NotifyOfPropertyChange(() => Weather);
+				}
+				catch (Exception)
+				{
+					MessageBox.Show("Nem sikerült az adatok eltárolása!");
+					
+				}
+			}
+		}
+		// Adat lekérés API-val
+		private JObject GetWeather() 
+		{
+			JObject Object;
+			var client = new RestClient("http://api.openweathermap.org/data/2.5/weather");
+			var request = new RestRequest(Method.GET);
+			request.AddParameter("id", 6690440);
+			request.AddParameter("appid", "a21017d2f65b7002114cca6406d749df");
+			request.AddParameter("mode", "json");
 			try
 			{
-				Temperature = Math.Round((double)Object["main"]["temp"] - 273.15).ToString() + "°C"; // hőmérséklet kiszámítása, az érték kelvinben van tárolva ezért ki kell vonunk 273.15-t
-				FeelsLike = Math.Round((double)Object["main"]["feels_like"] - 273.15).ToString() + "°C";
-				Humidity = Math.Round((double)Object["main"]["humidity"]).ToString() + "%"; // Páratartalom
-				Sunrise = UnixTime((int)Object["sys"]["sunrise"]); // UnixTime metódus adja vissza az időt a unix időből
-				Sunset = UnixTime((int)Object["sys"]["sunset"]);
-				WindSpeed = ((double)Object["wind"]["speed"] * 3.6).ToString() + " km/h"; // szélsebesség megadása 3.6-al szórzunk hogy megkapjuk a km/h-ás értéket
-				WindDirection = Direction((int)Object["wind"]["deg"]); // szélirány meghatározása a Direction metódusal 
-				City = Object["name"].ToString(); // város 
-				DateTime dt = DateTime.Now; // aktuális idő
-				Time = dt.ToString("HH:mm:ss tt");
+				Object = JObject.Parse(client.Execute(request).Content);
+				if (!(Object.ContainsKey("coord")))
+				{
+					throw new Exception();
+				}
 			}
 			catch (Exception)
 			{
-				MessageBox.Show("Nem sikerült az adatok lekérése");
+				MessageBox.Show("Nem sikerült az adatok lekérése!");
+				Object = null;
 			}
-		}
-		public JObject GetWeather() // ez a metódus felel az adatok lekérésért, erre egy Open Weather API-t használ ami Id alapján azonosítja a várost
-		{
-			var client = new RestClient("http://api.openweathermap.org/data/2.5/weather"); // Rest kliens létrehozása
-			var request = new RestRequest(Method.GET); // beállítja a http hívás típusát
-			request.AddParameter("id", 6690440); // a város id hozzáfűzése 
-			request.AddParameter("appid", "a21017d2f65b7002114cca6406d749df"); // APIkey hozzáfűzése 
-			request.AddParameter("mode", "json"); // a várt adatok formátumának beállítása
-			JObject Object = JObject.Parse(client.Execute(request).Content); // Végrehatja a Rest hívást és feldolgozza a választ
-
 			return Object;
 		}
-		public string Direction(int _wd) // Ez a metódus felel érte hogy megtudjuk milyen irányból fúj a szél, paraméterként megkapja a szél irányát °fokban
+		// Szélirányt meghatározó method
+		private string Direction(int _wd)
 		{
 			string _direction = "";
-			switch (_wd) // a kapott fok nagysága alapján eldönti melyik irányból fúj a szél
+			switch (_wd) 
 			{
 				case int n when (n < 23 || n > 337): 
 					_direction = "Északi";
@@ -139,9 +102,10 @@ namespace GyorWeather.ViewModels
 					_direction = "Észak-Nyugati";
 					break;
 			}
-			return _direction; // a kapott irányt stringként adjuk vissza
+			return _direction; 
 		}
-		public string UnixTime(int unixtime) // Idő kinyerése Unix formátumból, a metódus paraméterként kapja meg a unixidőt
+		// Unix idő átváltó method
+		private string UnixTime(int unixtime) 
 		{
 			var timeSpan = TimeSpan.FromSeconds(unixtime); 
 			var localDateTime = new DateTime(timeSpan.Ticks).ToLocalTime();
